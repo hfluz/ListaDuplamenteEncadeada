@@ -5,6 +5,13 @@ public class ListaDuplamenteEncadeada {
     private Node fim;
     private Integer tamanho;
 
+    public ListaDuplamenteEncadeada(){
+        inicio = new Node(null);
+        fim = new Node(null);
+        fim.anterior = inicio;
+        inicio.proximo = fim;
+    }
+
     public void inserirNoInicio(Aeroporto aeroporto){
         Node novoNo = new Node(aeroporto);
         if(isVazia()){
