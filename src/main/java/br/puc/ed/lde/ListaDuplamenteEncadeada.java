@@ -10,42 +10,45 @@ public class ListaDuplamenteEncadeada {
         fim = new Node(null);
         fim.anterior = inicio;
         inicio.proximo = fim;
+        tamanho = 0;
     }
 
     public void inserirNoInicio(Aeroporto aeroporto){
         Node novoNo = new Node(aeroporto);
-        if(isVazia()){
-            fim = novoNo;
-        }
-        novoNo.proximo = inicio;
-        inicio = novoNo;
+        Node proximoNo = inicio.proximo;
+        inicio.proximo = novoNo;
+        proximoNo.anterior = novoNo;
+        novoNo.anterior = inicio;
+        novoNo.proximo = proximoNo;
         tamanho++;
     }
 
     public void inserirNoFim(Aeroporto aeroporto){
         Node novoNo = new Node(aeroporto);
-        if(isVazia()){
-            inicio = novoNo;
-        }
-        fim.proximo = novoNo;
-        fim = novoNo;
+        Node noAnterior = fim.anterior;
+        noAnterior.proximo = novoNo;
+        fim.anterior = novoNo;
+        novoNo.anterior = noAnterior;
+        novoNo.proximo = fim;
         tamanho++;
     }
 
     public Node excluirNoInicio(){
-        Node noExcluido = inicio;
-        inicio = inicio.proximo;
+        Node noExcluido = getInicio();
+        Node proximoNo = noExcluido.proximo;
+        inicio.proximo = proximoNo;
+        proximoNo.anterior = inicio;
         tamanho--;
         return noExcluido;
     }
 
     public boolean isVazia(){
-        return inicio == null;
+        return tamanho == 0;
     }
 
     public void imprimirTodos(){
-        Node noAtual = inicio;
-        while (noAtual != null){
+        Node noAtual = getInicio();
+        while (noAtual != fim){
             System.out.print(noAtual + " -> ");
             noAtual = noAtual.proximo;
         }
@@ -57,10 +60,16 @@ public class ListaDuplamenteEncadeada {
     }
 
     public Node getInicio() {
-        return inicio;
+        if(isVazia()){
+            return null;
+        }
+        return inicio.proximo;
     }
 
     public Node getFim() {
-        return fim;
+        if(isVazia()){
+            return null;
+        }
+        return fim.anterior;
     }
 }
